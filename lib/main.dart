@@ -45,24 +45,24 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
         //Aceita widget text e não só string
-        title: Text('Lista de tarefas'),
+        title: const Text('Lista de tarefas'),
       ),
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(17, 1, 7, 1),
+            padding: const EdgeInsets.fromLTRB(17, 1, 7, 1),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _toDoController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Nova tarefa',
                       labelStyle: TextStyle(color: Colors.blueAccent),
                     ),
                   ),
                 ),
-                ElevatedButton(onPressed: _addToDo, child: Text('Add'))
+                ElevatedButton(onPressed: _addToDo, child: const Text('Add'))
               ],
             ),
           ),
@@ -70,7 +70,7 @@ class _HomeState extends State<Home> {
               child: RefreshIndicator(
             onRefresh: _refresh,
             child: ListView.builder(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 itemCount: _toDoList.length,
                 itemBuilder: buildItem),
           ))
@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
       key: Key(DateTime.now().microsecondsSinceEpoch.toString()),
       background: Container(
           color: Colors.red,
-          child: Align(
+          child: const Align(
             alignment: Alignment(-0.9, 0.0),
             child: Icon(Icons.delete, color: Colors.white),
           )),
@@ -129,7 +129,7 @@ class _HomeState extends State<Home> {
                     _saveData();
                   });
                 }),
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
           );
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(snack);
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
   //função de add nova tarefa
   void _addToDo() {
     setState(() {
-      Map<String, dynamic> newToDo = Map();
+      Map<String, dynamic> newToDo = {};
       newToDo['title'] = _toDoController.text;
       _toDoController.text = "";
       newToDo['ok'] = false;
@@ -182,21 +182,22 @@ class _HomeState extends State<Home> {
   }
 
   //função de atualizar e ordernar
-  Future<Null> _refresh() async {
-    await Future.delayed(Duration(seconds: 1));
+  Future<void> _refresh() async {
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {
       //ordena
       _toDoList.sort((a, b) {
-        if (a['ok'] && !b['ok'])
+        if (a['ok'] && !b['ok']) {
           return 1;
-        else if (!a['ok'] && b['ok'])
+        } else if (!a['ok'] && b['ok']) {
           return -1;
-        else
+        } else {
           return 0;
+        }
       });
       _saveData();
     });
 
-    return null;
+    return;
   }
 }
